@@ -1,0 +1,11 @@
+
+!IF "$(STATIC_MESA)" == "1"
+!ERROR lib.$(LIBBASE) : This file require STATIC_MESA be set to 0.
+!ENDIF
+
+!INCLUDE .\rules\lib.mesatk32
+
+INTDIRSFX = mesatk32
+
+DLLLIBS  = glu32.lib opengl32.lib
+

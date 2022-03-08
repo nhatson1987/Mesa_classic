@@ -1,0 +1,53 @@
+
+!IF "$(STATIC_MESA)" == "1"
+!ERROR lib.$(LIBBASE) : This file require STATIC_MESA be set to 0.
+!ENDIF
+
+LIBCOMMENTS=Requires S3DTKW.DLL.
+
+!INCLUDE .\rules\lib.mesa.core
+
+SRCFILES = $(MESA_CORE) $(LIBBASE).rc s3mesa.c s3wgl.c
+
+DLLLIBS = ddraw.lib s3dtkw.lib
+CPPOPTS = /DS3 /DS3_SILENT $(CPPOPTS)
+DEFFILE = $(LIBBASE).def
+
+$(LIBBASE).def: mesa-core.def .\rules\lib.s3mesa32 nmake.mak
+	rem <<$(TEMP)\prefix.def
+LIBRARY     "$(LIBBASE)"
+
+DESCRIPTION '"""Mesa 3D graphics library for Win32 S3D"""'
+
+VERSION     $(MESAVER)
+
+HEAPSIZE    1048576,4096
+<<KEEP
+	rem <<$(TEMP)\postfix.def
+    wglChoosePixelFormat
+    wglCopyContext
+    wglCreateContext
+    wglCreateLayerContext
+    wglDeleteContext
+    wglDescribeLayerPlane
+    wglDescribePixelFormat
+    wglGetCurrentContext
+    wglGetCurrentDC
+    wglGetLayerPaletteEntries
+    wglGetPixelFormat
+    wglGetProcAddress
+    wglMakeCurrent
+    wglRealizeLayerPalette
+    wglSetLayerPaletteEntries
+    wglSetPixelFormat
+    wglShareLists
+    wglSwapBuffers
+    wglSwapLayerBuffers
+    wglUseFontBitmapsA
+    wglUseFontBitmapsW
+    wglUseFontOutlinesA
+    wglUseFontOutlinesW
+<<KEEP
+	copy /b $(TEMP)\prefix.def+mesa-core.def+$(TEMP)\postfix.def $@
+
+

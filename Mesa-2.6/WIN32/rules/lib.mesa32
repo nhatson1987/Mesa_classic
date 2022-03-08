@@ -1,0 +1,61 @@
+
+!IF "$(STATIC_MESA)" == "1"
+!ERROR lib.$(LIBBASE) : This file require STATIC_MESA be set to 0.
+!ENDIF
+
+!INCLUDE .\rules\lib.mesa.core
+
+SRCFILES = $(MESA_CORE)\
+	osmesa.c wmesa.c wgl.c $(LIBBASE).rc
+
+DEFFILE = $(LIBBASE).def
+
+$(LIBBASE).def: mesa-core.def .\rules\lib.mesa32 nmake.mak
+	rem <<$(TEMP)\prefix.def
+LIBRARY     "$(LIBBASE)"
+
+DESCRIPTION '"""Mesa 3D graphics library for Win32"""'
+
+VERSION     $(MESAVER)
+
+HEAPSIZE    1048576,4096
+<<KEEP
+	rem <<$(TEMP)\postfix.def
+    OSMesaCreateContext
+    OSMesaDestroyContext
+    OSMesaMakeCurrent
+    OSMesaGetCurrentContext
+    OSMesaPixelStore
+    OSMesaGetIntegerv
+    OSMesaGetDepthBuffer
+    WMesaCreateContext
+    WMesaDestroyContext
+    WMesaMakeCurrent
+    WMesaPaletteChange
+    WMesaSwapBuffers
+	wglCopyContext
+	wglCreateContext
+	wglDeleteContext
+	wglCreateLayerContext
+	wglGetCurrentContext
+	wglGetCurrentDC
+	wglMakeCurrent
+	wglShareLists
+	wglUseFontBitmapsA
+	wglUseFontBitmapsW
+	wglUseFontOutlinesA
+	wglUseFontOutlinesW
+	wglDescribeLayerPlane
+	wglSetLayerPaletteEntries
+	wglGetLayerPaletteEntries
+	wglRealizeLayerPalette
+	wglSwapLayerBuffers
+	wglChoosePixelFormat
+	wglDescribePixelFormat
+	wglGetProcAddress
+	wglGetPixelFormat
+	wglSetPixelFormat
+	wglSwapBuffers
+<<KEEP
+	copy /b $(TEMP)\prefix.def+mesa-core.def+$(TEMP)\postfix.def $@
+

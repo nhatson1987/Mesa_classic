@@ -1,0 +1,11 @@
+
+!IF "$(STATIC_MESA)" == "1"
+!ERROR lib.$(LIBBASE) : This file require STATIC_MESA be set to 0.
+!ENDIF
+
+!INCLUDE .\rules\lib.mesaaux.core
+
+DLLLIBS  = mesatk32.lib mesaglu32.lib mesa32.lib
+
+SRCFILES = $(SRCFILES) $(LIBBASE).rc
+

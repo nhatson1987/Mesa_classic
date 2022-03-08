@@ -1,0 +1,60 @@
+
+                           Mesa 2.6 release notes
+
+
+Highlights
+----------
+
+Many bug fixes since Mesa 2.5.
+
+Performance optimizations for GLQuake and GLQuake II.
+
+See the VERSIONS file for details.
+
+
+Demo directories
+----------------
+
+The demo directories were renamed:
+
+	Old Name	New Name
+	demos/		xdemos/
+	gdemos/		demos/
+
+
+3Dfx/Glide
+----------
+
+The 3Dfx Glide Mesa driver has been updated to v0.21.  GLQuake should
+run faster and better than ever.
+
+For optimum GLQuake performance, compile Mesa using the linux-386-quake-glide
+target.
+
+When compiling for 'linux-glide' the libMesaGL.so file automatically
+links with the 3Dfx glid2x and texus libraries.  This relieves users
+from explicitly linking with -lglide2x and -ltexus.  However, the
+LD_LIBRARY_PATH environment variable must still be defined correctly.
+
+If you've installed Glide in /usr/local/glide and Mesa in /usr/local/Mesa
+then you would at least have:
+
+	setenv LD_LIBRARY_PATH "/usr/local/glide/lib:/usr/local/Mesa/lib"
+
+
+
+3Dfx/Glide window / full-screen mode
+------------------------------------
+
+The new XMesaSetFXmode() function can be used to switch between full-screen
+and window rendering mode on the fly.  See the 3Dfx/demos/tunnel.c program
+for an example.  You have to set the -DXMESA flag in the Makefile's COPTS
+to enable it.
+
+
+Threading
+---------
+
+Initial support for multi-threading now included.  See the README.THREADS
+file.
+

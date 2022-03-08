@@ -1,0 +1,33 @@
+# Makefile for Win32
+
+TOP = ..
+
+!include "$(TOP)/names.win"
+
+!include <win32.mak>
+
+SRCS= \
+bounce.c \
+drawpix.c \
+gamma.c \
+gears.c \
+glinfo.c \
+glutfx.c \
+isosurf.c \
+morph3d.c \
+osdemo.c \
+paltex.c \
+pointblast.c \
+reflect.c \
+spectex.c \
+stex3d.c \
+tessdemo.c \
+texcyl.c \
+texobj.c \
+trispd.c \
+winpos.c
+
+EXTRALIBS = $(MESAGL).lib $(MESAGLU).lib $(MESAGLUT).lib 
+
+!include "$(TOP)/mesawin32.mak"
+

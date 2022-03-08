@@ -1,0 +1,100 @@
+
+SRCALT1  = $(MESADEMOROOT)\src-tk
+
+SRCFILES = font.c image.c shapes.c tkwndws.c
+
+DEFFILE  = $(LIBBASE).def
+
+!IF "$(LIBCOMMENTS)" == ""
+LIBCOMMENTS=Requires MesaGLU32.DLL and Mesa32.DLL
+!ENDIF
+
+$(LIBBASE).rc: .\rules\lib.mesatk.core nmake.mak
+	rem <<$@
+#include <windows.h>
+
+#define IDR_VERSION1  1
+IDR_VERSION1	VERSIONINFO	MOVEABLE IMPURE LOADONCALL DISCARDABLE
+  FILEVERSION	 $(MESADEMOFILEVER)
+  PRODUCTVERSION $(MESADEMOFILEVER)
+  FILEFLAGSMASK	VS_FFI_FILEFLAGSMASK
+  FILEFLAGS	0
+  FILEOS	VOS_DOS_WINDOWS32
+  FILETYPE	VFT_DLL
+  FILESUBTYPE	0	// not used
+BEGIN
+  BLOCK "StringFileInfo"
+  BEGIN
+    BLOCK "040904E4"
+    //language ID = U.S. English, char set = Windows, Multilingual
+
+    BEGIN
+      VALUE "FileDescription", "$(LIBBASE) Tk Library\0"
+      VALUE "FileVersion",	"$(MESADEMOVER)\0"
+      VALUE "InternalName",	"$(LIBBASE)\0"
+      VALUE "OriginalFilename",	"$(LIBBASE).DLL\0"
+      VALUE "ProductName",	"$(LIBBASE).DLL\0"
+      VALUE "Comments",	"Thanks to Brian Paul for making this possible\r\n$(LIBCOMMENTS)\0"
+      VALUE "LegalCopyright", "Copyright (C) 1995-1997 Brian Paul\0"
+    END
+  END
+  BLOCK "VarFileInfo"
+  BEGIN
+    VALUE "Translation", 0x0409, 1252
+  END
+END
+<<KEEP
+
+$(LIBBASE).def: .\rules\lib.mesatk.core nmake.mak
+	rem <<$@
+LIBRARY     "$(LIBBASE)"
+
+DESCRIPTION '"""Mesa Tk for Win32"""'
+
+VERSION     $(MESADEMOVER)
+
+HEAPSIZE    1048576,4096
+
+EXPORTS
+    tkCloseWindow
+    tkCreateBitmapFont
+    tkCreateFilledFont
+    tkCreateOutlineFont
+    tkCreateStrokeFont
+    tkDisplayFunc
+    tkDrawStr
+    tkExec
+    tkExposeFunc
+    tkGetColorMapSize
+    tkGetMouseLoc
+    tkIdleFunc
+    tkInitDisplayMode
+    tkInitPosition
+    tkInitWindow
+    tkKeyDownFunc
+    tkMouseDownFunc
+    tkMouseMoveFunc
+    tkMouseUpFunc
+    tkQuit
+    tkReshapeFunc
+    tkRGBImageLoad
+    tkRGBMap
+    tkSetFogRamp
+    tkSetGreyRamp
+    tkSetOneColor
+    tkSetRGBMap
+    tkSolidBox
+    tkSolidCone
+    tkSolidCube
+    tkSolidCylinder
+    tkSolidSphere
+    tkSolidTorus
+    tkSwapBuffers
+    tkWireBox
+    tkWireCone
+    tkWireCube
+    tkWireCylinder
+    tkWireSphere
+    tkWireTorus
+
+<<KEEP

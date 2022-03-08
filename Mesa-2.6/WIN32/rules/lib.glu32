@@ -1,0 +1,8 @@
+
+!INCLUDE .\rules\lib.mesaglu
+
+INTDIRSFX = glu32
+
+SRCFILES = $(SRCFILES) $(LIBBASE).rc
+
+DLLLIBS=opengl32.lib

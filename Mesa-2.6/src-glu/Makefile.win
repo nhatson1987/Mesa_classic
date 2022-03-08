@@ -1,0 +1,38 @@
+# Makefile for Win32
+
+TOP = ..
+
+!include "$(TOP)/names.win"
+
+PROJECT = $(MESAGLU)
+
+!include <win32.mak>
+
+TOP = ..
+
+SRCS= \
+    glu.c \
+    mipmap.c \
+    nurbs.c \
+    nurbscrv.c \
+    nurbssrf.c \
+    nurbsutl.c \
+    polytest.c \
+    project.c \
+    quadric.c \
+    tess.c \
+    tesselat.c
+
+
+all	: $(PROJECT).dll install
+
+EXTRALIBS = $(MESAGL).lib
+
+!include "$(TOP)/mesawin32.mak"
+
+install	: $(PROJECT).dll
+	@echo copying $(PROJECT).dll to system directory...
+	copy $(PROJECT).dll $(DLLINSTALL)
+	@echo "copying $(PROJECT).lib import library to library directory..."
+	copy $(PROJECT).lib $(LIBINSTALL)
+

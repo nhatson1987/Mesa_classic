@@ -1,0 +1,15 @@
+
+!IF "$(STATIC_MESA)" == "1"
+!ERROR Building with static Mesa runtime is not yet supported for the demos.
+EXELIBS     = mesaglut.lib mesaglu.lib mesa.lib
+!ELSE
+EXELIBS     = glut32.lib glu32.lib opengl32.lib
+!ENDIF
+
+SRCALT1 = .\$(MESADEMOROOT)\demos
+
+SRCFILES = bounce.c clearspd.c drawpix.c gamma.c gears.c glinfo.c\
+	glutfx.c isosurf.c morph3d.c osdemo.c paltex.c pointblast.c\
+	reflect.c spectex.c stex3d.c tessdemo.c texcyl.c texobj.c\
+	trispd.c winpos.c
+

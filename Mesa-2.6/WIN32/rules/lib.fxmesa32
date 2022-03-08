@@ -1,0 +1,56 @@
+
+!IF "$(STATIC_MESA)" == "1"
+!ERROR lib.$(LIBBASE) : This file require STATIC_MESA be set to 0.
+!ENDIF
+
+LIBCOMMENTS=Requires GLIDE2X.DLL.
+
+!INCLUDE .\rules\lib.mesa.core
+
+SRCFILES = $(MESA_CORE) $(LIBBASE).rc fxwgl.c\
+	fxmesa1.c fxmesa2.c fxmesa3.c fxmesa4.c fxmesa5.c fxmesa6.c
+
+DLLLIBS = glide2x.lib
+CPPOPTS = /DFX /DFX_SILENT $(CPPOPTS)
+DEFFILE = $(LIBBASE).def
+
+$(LIBBASE).def: mesa-core.def .\rules\lib.fxmesa32 nmake.mak
+	rem <<$(TEMP)\prefix.def
+LIBRARY     "$(LIBBASE)"
+
+DESCRIPTION '"""Mesa 3D graphics library for Win32 Glide"""'
+
+VERSION     $(MESAVER)
+
+HEAPSIZE    1048576,4096
+<<KEEP
+	rem <<$(TEMP)\postfix.def
+    gl3DfxSetPaletteEXT
+    wglChoosePixelFormat
+    wglCopyContext
+    wglCreateContext
+    wglCreateLayerContext
+    wglDeleteContext
+;   wglDescribeLayerPlane
+    wglDescribePixelFormat
+    wglGetCurrentContext
+    wglGetCurrentDC
+;   wglGetLayerPaletteEntries
+    wglGetPixelFormat
+    wglGetProcAddress
+    wglMakeCurrent
+;   wglRealizeLayerPalette
+;   wglSetLayerPaletteEntries
+    wglSetPixelFormat
+    wglShareLists
+    wglSwapBuffers
+    wglSwapLayerBuffers
+    wglUseFontBitmapsA
+    wglUseFontBitmapsW
+    wglUseFontOutlinesA
+    wglUseFontOutlinesW
+    WMesaSwapBuffers
+<<KEEP
+	copy /b $(TEMP)\prefix.def+mesa-core.def+$(TEMP)\postfix.def $@
+
+

@@ -1,0 +1,13 @@
+
+!IF "$(STATIC_MESA)" == "1"
+EXELIBS     = mesaaux.lib mesatk.lib mesaglu.lib mesa.lib
+!ELSE
+EXELIBS     = aux32.lib tk32.lib glu32.lib opengl32.lib
+!ENDIF
+
+SRCALT1 = .\$(MESADEMOROOT)\samples
+
+SRCFILES = bitmap1.c bitmap2.c depth.c eval.c fog.c font.c line.c\
+	logo.c nurb.c olympic.c point.c quad.c select.c shape.c sphere.c\
+	star.c stencil.c tri.c wave.c     
+

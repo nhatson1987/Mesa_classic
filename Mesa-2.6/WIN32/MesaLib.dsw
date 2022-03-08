@@ -1,0 +1,251 @@
+Microsoft Developer Studio Workspace File, Format Version 5.00
+# WARNING: DO NOT EDIT OR DELETE THIS WORKSPACE FILE!
+
+###############################################################################
+
+Project: "Aux32"=".\aux32.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name Tk32
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "GLU32"=".\glu32.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name OpenGL32
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "GLUT32"=".\glut32.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name GLU32
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name OpenGL32
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "Mesa"=".\mesa.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "Mesa32"=".\mesa32.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "MesaAux"=".\mesaaux.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "MesaAux32"=".\MesaAux32.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name Mesa32
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name MesaGLU
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name MesaTk32
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "MesaGLU"=".\mesaglu.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "MesaGLU32"=".\mesaglu32.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name Mesa32
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "MesaGLUT32"=".\mesaglut32.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name Mesa32
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name MesaGLU32
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "MesaTk"=".\mesatk.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "MesaTk32"=".\MesaTk32.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name Mesa32
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name MesaGLU32
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "OpenGL32"=".\opengl32.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "Tk32"=".\tk32.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name GLU32
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name OpenGL32
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "fxMesa32"=".\fxmesa32.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "s3Mesa32"=".\s3mesa32.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Global:
+
+Package=<5>
+{{{
+}}}
+
+Package=<3>
+{{{
+}}}
+
+###############################################################################
+

@@ -1,0 +1,13 @@
+
+!IF "$(STATIC_MESA)" == "1"
+!ERROR lib.$(LIBBASE) : This file require STATIC_MESA be set to 0.
+!ENDIF
+
+LIBCOMMENTS=Requires fxMesaGLU32.DLL and fxMesa32.DLL
+
+!INCLUDE .\rules\lib.mesatk32
+
+DLLLIBS=fxmesaglu32.lib fxmesa32.lib
+
+CPPOPTS = /DFX /DFX_SILENT $(CPPOPTS)
+

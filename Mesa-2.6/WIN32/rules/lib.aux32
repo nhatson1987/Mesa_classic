@@ -1,0 +1,7 @@
+
+!INCLUDE .\rules\lib.mesaaux32
+
+INTDIRSFX = mesaaux32
+
+DLLLIBS  = tk32.lib glu32.lib opengl32.lib
+

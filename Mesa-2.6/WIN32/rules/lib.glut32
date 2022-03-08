@@ -1,0 +1,7 @@
+
+!INCLUDE .\rules\lib.mesaglut32
+
+INTDIRSFX = mesaglut32
+
+DLLLIBS=glu32.lib opengl32.lib
+

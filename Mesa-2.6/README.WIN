@@ -1,0 +1,31 @@
+Mesa/Win32 makefiles, Microsoft Visual C++ environment
+------------------------------------------------------
+Contributed by Oleg Letsinsky (ajl@ultersys.ru)
+
+
+Use the following command to build the Win32 version of Mesa library:
+
+mesaw32 ["NODEBUG=1"] [clobber] [clean]
+
+NODEBUG=1 - to build the release/optimized version
+clobber   - cleans output files ( *.dll, *.exe, *.lib )
+clean     - cleans intermediate files ( *.obj, *.pch, etc. )
+
+This version has been compiled and tested in the following environment:
+ - Windows NT 4.0 SP3
+ - MSVC++ 5.0 SP3
+
+I have experinced crashes in the "pointblast" demo with optimization
+turned on. This can be caused either by compiler bug or by some
+bug in Win32 Mesa ( e.g. uninitialized variable )
+
+You'll have to edit some demos code to compile them under Win32,
+but I believe it's not a big problem for you - anyway you're 
+a programmer ( since you're using Mesa ;) )
+
+Last note: The MesaGL.lib should always preceed the GDI32.lib in the
+linker command line. Overwise *PixelFormat routines won't work !
+
+
+
+

@@ -1,0 +1,5 @@
+
+!INCLUDE .\rules\lib.mesa.core
+
+SRCFILES = $(MESA_CORE) osmesa.c wmesa.c
+

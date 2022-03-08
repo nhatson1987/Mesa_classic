@@ -1,0 +1,68 @@
+cmake_minimum_required(VERSION 3.16)
+project(mesaold)
+
+set(CMAKE_C_STANDARD 11)
+message(${CMAKE_CURRENT_SOURCE_DIR})
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../include)
+
+add_executable(mesa32
+        accum.c
+        alpha.c
+        alphabuf.c
+        api1.c
+        api2.c
+        attrib.c
+        bitmap.c
+        blend.c
+        clip.c
+        colortab.c
+        context.c
+        copypix.c
+        depth.c
+        dlist.c
+        drawpix.c
+        enable.c
+        eval.c
+        feedback.c
+        fog.c
+        get.c
+        hash.c
+        image.c
+        light.c
+        lines.c
+        logic.c
+        masking.c
+        matrix.c
+        misc.c
+        mmath.c
+        osmesa.c
+        pb.c
+        pixel.c
+        pointers.c
+        points.c
+        polygon.c
+        quads.c
+        rastpos.c
+        readpix.c
+        rect.c
+        scissor.c
+        shade.c
+        span.c
+        stencil.c
+        teximage.c
+        texobj.c
+        texstate.c
+        texture.c
+        triangle.c
+        varray.c
+        vb.c
+        vbfill.c
+        vbrender.c
+        vbxform.c
+        wgl.c
+        winpos.c
+        #wmesa.c
+        xform.c
+
+        main.cpp
+        )

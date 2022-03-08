@@ -1,0 +1,107 @@
+
+SRCALT1  = $(MESADEMOROOT)\src-aux
+
+SRCFILES = font.c glaux.c image.c shapes.c teapot.c vect3d.c xxform.c
+
+DEFFILE  = $(LIBBASE).def
+
+$(LIBBASE).rc: .\rules\lib.mesaaux.core nmake.mak
+	rem <<$@
+#include <windows.h>
+
+#define IDR_VERSION1  1
+IDR_VERSION1	VERSIONINFO	MOVEABLE IMPURE LOADONCALL DISCARDABLE
+  FILEVERSION	 $(MESAFILEVER)
+  PRODUCTVERSION $(MESAFILEVER)
+  FILEFLAGSMASK	VS_FFI_FILEFLAGSMASK
+  FILEFLAGS	0
+  FILEOS	VOS_DOS_WINDOWS32
+  FILETYPE	VFT_DLL
+  FILESUBTYPE	0	// not used
+BEGIN
+  BLOCK "StringFileInfo"
+  BEGIN
+    BLOCK "040904E4"
+    //language ID = U.S. English, char set = Windows, Multilingual
+
+    BEGIN
+      VALUE "FileDescription", "$(LIBBASE) Aux Library\0"
+      VALUE "FileVersion",	"$(MESAVER)\0"
+      VALUE "InternalName",	"$(LIBBASE)\0"
+      VALUE "OriginalFilename",	"$(LIBBASE).DLL\0"
+      VALUE "ProductName",	"$(LIBBASE).DLL\0"
+      VALUE "Comments",	"Thanks to Brian Paul for making this possible\r\nRequires MesaTK.DLL, MesaGLU.DLL and MesaGL.DLL\0"
+      VALUE "LegalCopyright", "Copyright (C) 1995-1997 Brian Paul\0"
+    END
+  END
+  BLOCK "VarFileInfo"
+  BEGIN
+    VALUE "Translation", 0x0409, 1252
+  END
+END
+<<KEEP
+
+$(LIBBASE).def: .\rules\lib.mesaaux.core nmake.mak
+	rem <<$@
+LIBRARY     "$(LIBBASE)"
+
+DESCRIPTION '"""Mesa Aux for Win32"""'
+
+VERSION     $(MESAVER)
+
+HEAPSIZE    1048576,4096
+
+EXPORTS
+    auxInitDisplayMode
+    auxInitPosition
+    auxInitWindow
+    auxCloseWindow
+    auxQuit
+    auxSwapBuffers
+    auxMainLoop
+    auxExposeFunc
+    auxReshapeFunc
+    auxIdleFunc
+    auxKeyFunc
+    auxMouseFunc
+    auxDeleteMouseFunc
+    auxGetColorMapSize
+    auxGetMouseLoc
+    auxSetOneColor
+    auxSetFogRamp
+    auxSetGreyRamp
+    auxSetRGBMap
+    auxRGBImageLoad
+    auxCreateFont
+    auxDrawStr
+    auxWireSphere
+    auxSolidSphere
+    auxWireCube
+    auxSolidCube
+    auxWireBox
+    auxSolidBox
+    auxWireTorus
+    auxSolidTorus
+    auxWireCylinder
+    auxSolidCylinder
+    auxWireIcosahedron
+    auxSolidIcosahedron
+    auxWireOctahedron
+    auxSolidOctahedron
+    auxWireTetrahedron
+    auxSolidTetrahedron
+    auxWireDodecahedron
+    auxSolidDodecahedron
+    auxWireCone
+    auxSolidCone 
+    auxWireTeapot
+    auxSolidTeapot
+    auxInitDisplayModePolicy
+    auxGetDisplayModePolicy
+    auxInitDisplayModeID
+    auxGetDisplayModeID
+    auxGetDisplayMode
+    auxGetScreenSize
+    auxAnimation
+
+<<KEEP

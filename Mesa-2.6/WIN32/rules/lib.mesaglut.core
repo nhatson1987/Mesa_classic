@@ -1,0 +1,164 @@
+
+SRCALT1=.\$(MESAROOT)\src-glut
+
+SRCFILES = glut_8x13.c glut_9x15.c glut_bitmap.c glut_bwidth.c\
+	glut_cindex.c glut_cursor.c glut_cmap.c glut_dials.c glut_dstr.c\
+	glut_event.c glut_ext.c glut_fullscrn.c glut_get.c glut_hel10.c\
+	glut_hel12.c glut_hel18.c glut_init.c glut_input.c glut_mesa.c\
+	glut_modifier.c glut_mroman.c glut_overlay.c glut_roman.c glut_shapes.c\
+	glut_space.c glut_stroke.c glut_swap.c glut_swidth.c glut_tablet.c\
+	glut_teapot.c glut_tr10.c glut_tr24.c glut_util.c glut_vidresize.c\
+	glut_warp.c	glut_win.c glut_winmisc.c win32_glx.c win32_menu.c\
+	win32_util.c win32_x11.c
+
+DEFFILE=$(LIBBASE).def
+
+$(LIBBASE).rc: .\rules\lib.mesaglut.core nmake.mak
+	rem <<$@
+#include <windows.h>
+
+#define IDR_VERSION1  1
+IDR_VERSION1	VERSIONINFO	MOVEABLE IMPURE LOADONCALL DISCARDABLE
+  FILEVERSION	 $(MESAVER)
+  PRODUCTVERSION $(MESAVER)
+  FILEFLAGSMASK	VS_FFI_FILEFLAGSMASK
+  FILEFLAGS	0
+  FILEOS	VOS_DOS_WINDOWS32
+  FILETYPE	VFT_DLL
+  FILESUBTYPE	0	// not used
+BEGIN
+  BLOCK "StringFileInfo"
+  BEGIN
+    BLOCK "040904E4"
+    //language ID = U.S. English, char set = Windows, Multilingual
+
+    BEGIN
+      VALUE "FileDescription", "$(LIBBASE) Graphics Library Utility Toolkit\0"
+      VALUE "FileVersion",	"$(MESAVER)\0"
+      VALUE "InternalName",	"$(LIBBASE)\0"
+      VALUE "OriginalFilename",	"$(LIBBASE).DLL\0"
+      VALUE "ProductName",	"$(LIBBASE).DLL\0"
+      VALUE "Comments",	"Thanks to Brian Paul for making this possible\r\n\0"
+      VALUE "LegalCopyright", "Copyright (C) 1995-1997 Brian Paul\0"
+    END
+  END
+  BLOCK "VarFileInfo"
+  BEGIN
+    VALUE "Translation", 0x0409, 1252
+  END
+END
+<<KEEP
+
+$(LIBBASE).def: .\rules\lib.mesaglut.core nmake.mak
+	rem <<$@
+DESCRIPTION '"""Mesa 3D GLUT for Win32"""'
+
+VERSION     $(MESAFILEVER)
+
+HEAPSIZE    1048576,4096
+
+EXPORTS
+	glutInit
+	glutInitDisplayMode
+	glutInitDisplayString
+	glutInitWindowPosition
+	glutInitWindowSize
+	glutMainLoop
+	glutCreateWindow
+	glutCreateSubWindow
+	glutDestroyWindow
+	glutPostRedisplay
+	glutSwapBuffers
+	glutGetWindow
+	glutSetWindow
+	glutSetWindowTitle
+	glutSetIconTitle
+	glutPositionWindow
+	glutReshapeWindow
+	glutPopWindow
+	glutPushWindow
+	glutIconifyWindow
+	glutShowWindow
+	glutHideWindow
+	glutFullScreen
+	glutSetCursor
+	glutWarpPointer
+	glutEstablishOverlay
+	glutRemoveOverlay
+	glutUseLayer
+	glutPostOverlayRedisplay
+	glutShowOverlay
+	glutHideOverlay
+	glutCreateMenu
+	glutDestroyMenu
+	glutGetMenu
+	glutSetMenu
+	glutAddMenuEntry
+	glutAddSubMenu
+	glutChangeToMenuEntry
+	glutChangeToSubMenu
+	glutRemoveMenuItem
+	glutAttachMenu
+	glutDetachMenu
+	glutDisplayFunc
+	glutReshapeFunc
+	glutKeyboardFunc
+	glutMouseFunc
+	glutMotionFunc
+	glutPassiveMotionFunc
+	glutEntryFunc
+	glutVisibilityFunc
+	glutIdleFunc
+	glutTimerFunc
+	glutMenuStateFunc
+	glutSpecialFunc
+	glutSpaceballMotionFunc
+	glutSpaceballRotateFunc
+	glutSpaceballButtonFunc
+	glutButtonBoxFunc
+	glutDialsFunc
+	glutTabletMotionFunc
+	glutTabletButtonFunc
+	glutMenuStatusFunc
+	glutOverlayDisplayFunc
+	glutWindowStatusFunc
+	glutSetColor
+	glutGetColor
+	glutCopyColormap
+	glutGet
+	glutDeviceGet
+	glutExtensionSupported
+	glutGetModifiers
+	glutLayerGet
+	glutBitmapCharacter
+	glutBitmapWidth
+	glutStrokeCharacter
+	glutStrokeWidth
+	glutBitmapLength
+	glutStrokeLength
+	glutWireSphere
+	glutSolidSphere
+	glutWireCone
+	glutSolidCone
+	glutWireCube
+	glutSolidCube
+	glutWireTorus
+	glutSolidTorus
+	glutWireDodecahedron
+	glutSolidDodecahedron
+	glutWireTeapot
+	glutSolidTeapot
+	glutWireOctahedron
+	glutSolidOctahedron
+	glutWireTetrahedron
+	glutSolidTetrahedron
+	glutWireIcosahedron
+	glutSolidIcosahedron
+	glutVideoResizeGet
+	glutSetupVideoResizing
+	glutStopVideoResizing
+	glutVideoResize
+	glutVideoPan
+	glutReportErrors
+<<KEEP
+

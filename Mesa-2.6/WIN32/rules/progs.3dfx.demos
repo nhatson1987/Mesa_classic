@@ -1,0 +1,17 @@
+
+!IF "$(STATIC_MESA)" == "1"
+!ERROR Building with static Mesa runtime is not yet supported for the 3Dfx demos.
+EXELIBS     = fxmesaglut.lib fxmesaglu.lib fxmesa.lib
+!ELSE
+EXELIBS     = glut32.lib glu32.lib opengl32.lib
+!ENDIF
+
+SRCALT1     = .\$(MESADEMOROOT)\3dfx\demos
+EXELIBS     = $(EXELIBS) glide2x.lib texus.lib winmm.lib
+CPPOPTS     = /DFX /DFX_SILENT $(CPPOPTS)
+SUPLIBSROOT = .\rules\progs.3dfx.demos
+SUPLIBSSRC  = image.c dteapot.c shadow.c sources.c
+SRCFILES    = teapot.c fire.c mesaland.c tunnel.c paltex.c gltest.c ray.c
+NAUGHTY     = glbpaltx.c
+
+
