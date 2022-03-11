@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.11)
 project(mesa7)
 
+find_package(FLTK REQUIRED)
+
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include
 		${CMAKE_CURRENT_SOURCE_DIR}/src/mesa/
 		${CMAKE_CURRENT_SOURCE_DIR}/src/mesa/main
@@ -8,7 +10,10 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include
 		${CMAKE_CURRENT_SOURCE_DIR}/src/mesa/shader
 		${CMAKE_CURRENT_SOURCE_DIR}/src/mesa/shader/slang
 		${CMAKE_CURRENT_SOURCE_DIR}/src/mesa/shader/grammar
+
+		/usr/local/Cellar/fltk/1.3.8/include
 		)
+
 
 add_executable(mesa3d7
 		src/mesa/main/accum.c
@@ -407,3 +412,5 @@ src/mesa/drivers/osmesa/osmesa.def
 
 main.cpp
 		)
+
+target_link_libraries(mesa3d7 ${FLTK_LIBRARIES})

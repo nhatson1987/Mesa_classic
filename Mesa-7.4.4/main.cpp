@@ -16,6 +16,9 @@
  * ASCII PPM output added by Brian Paul.
  */
 
+#include <FL/Fl.H>
+#include <FL/Fl_Window.H>
+#include <FL/Fl_Box.H>
 
 
 #include <stdio.h>
@@ -420,11 +423,40 @@ int main( int argc, char *argv[] )
 
     printf("all done\n");
 
+    //Copy OGL buffer to another buffer for display because OGL buffer is upsidedown
+    uchar * displayBuffer = new uchar[WIDTH*HEIGHT*4];
+    GLubyte *ptr = (GLubyte *) buffer;
+    for (int y=HEIGHT-1; y>=0; y--) {
+        for (int x=0; x<WIDTH; x++) {
+            int i = (y*WIDTH + x) * 4;
+            int k = ((HEIGHT - y)*WIDTH +x)*4;
+            displayBuffer[k] = ptr[i];
+            displayBuffer[k+1] = ptr[i+1];
+            displayBuffer[k+2] = ptr[i+2];
+            displayBuffer[k+3] = 255;
+        }
+    }
+
     /* free the image buffer */
     free( buffer );
 
     /* destroy the context */
     OSMesaDestroyContext( ctx );
+
+
+    Fl_Window *window = new Fl_Window(WIDTH,HEIGHT);
+    Fl_Box *box = new Fl_Box(0,0,WIDTH,HEIGHT);
+    box->box(FL_NO_BOX);
+
+    Fl_Image * image = new Fl_RGB_Image((const uchar *)displayBuffer,WIDTH,HEIGHT,4,0);
+    box->image(image);
+
+    window->end();
+    window->show(argc, argv);
+    Fl::run();
+
+    delete image;
+    delete [] displayBuffer;
 
     return 0;
 }
