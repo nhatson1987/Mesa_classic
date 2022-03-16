@@ -3,3 +3,12 @@ Mesa-7.4.4/.idea
 Mesa-7.4.4/cmake-build-debug
 Mesa-7.4.4/cmake-build-release
 Mesa-7.4.4/.idea/vcs.xml
+
+
+microui/.idea
+microui/cmake-build-debug
+microui/cmake-build-release
+
+Xquartz_app/.idea
+Xquartz_app/cmake-build-debug
+Xquartz_app/cmake-build-release
