@@ -1,0 +1,25 @@
+# Just build mesa 8 and above until meson is introduced
+# Build gallium osmesa only
+./configure --enable-osmesa \
+--enable-gallium-osmesa \
+--disable-driglx-direct \
+--disable-glx \
+--disable-dri \
+--disable-dri3 \
+--disable-egl \
+--disable-gles1 \
+--disable-gles2 \
+--disable-nine \
+--disable-gbm \
+--disable-xa \
+--disable-va \
+--disable-xvmc \
+--disable-omx \
+--disable-opencl \
+--disable-opencl-icd \
+--disable-xlib-glx \
+--with-gallium-drivers=swrast \
+--enable-shared-glapi \
+--disable-gallium-llvm \
+--disable-llvm-shared-libs \
+--prefix=$PWD/install
