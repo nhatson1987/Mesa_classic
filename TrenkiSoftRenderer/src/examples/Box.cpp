@@ -46,12 +46,7 @@ public:
 
 	static void drawPixel(const PixelData &p)
 	{
-            int rint = (int)(p.avar[0] * 255);
-            int gint = (int)(p.avar[1] * 255);
-            int bint = (int)(p.avar[2] * 255);
-            printf("%d %d %d",rint,gint,bint);
-
-		int tx = std::max(0, int(p.pvar[0] * 255)) % 255;
+        int tx = std::max(0, int(p.pvar[0] * 255)) % 255;
 		int ty = std::max(0, int(p.pvar[1] * 255)) % 255;
 
 		Uint32 *texBuffer = (Uint32*)((Uint8 *)texture->pixels + (size_t)ty * (size_t)texture->pitch + (size_t)tx * 4);
@@ -91,14 +86,15 @@ mat4f VertexShader::modelViewProjectionMatrix;
 
 int main(int argc, char *argv[])
 {
-        SDL_Init(SDL_INIT_EVERYTHING);
-
+    SDL_Init(SDL_INIT_EVERYTHING);
+    const int WIDTH= 640;
+    const int HEIGHT= 480;
 	SDL_Window *window = SDL_CreateWindow(
 		"Box",
 		SDL_WINDOWPOS_UNDEFINED, 
 		SDL_WINDOWPOS_UNDEFINED,
-		640, 
-		480,
+        WIDTH,
+        HEIGHT,
 		0
 	);
 
@@ -111,41 +107,84 @@ int main(int argc, char *argv[])
 	SDL_FreeSurface(tmp);
 
 
-         printf("Texture with:%d - height:%d\n",texture->w,texture->h);
+     printf("Texture with:%d - height:%d\n",texture->w,texture->h);
 
-        srand(1234);
+    srand(1234);
 
-        std::vector<ObjData::VertexArrayData> vdata;
-        std::vector<int> idata;
-        ObjData::loadFromFile("data/box.obj").toVertexArray(vdata, idata);
+    std::vector<ObjData::VertexArrayData> vdata;
+    std::vector<int> idata;
+    ObjData::loadFromFile("data/box.obj").toVertexArray(vdata, idata);
 
-        Rasterizer r;
-        VertexProcessor v(&r);
-	
-        r.setRasterMode(RasterMode::Span);
-        r.setScissorRect(0, 0, 640, 480);
-        r.setPixelShader<PixelShader>();
-        PixelShader::surface = screen;
-        PixelShader::texture = texture;
+    Rasterizer r;
+    VertexProcessor v(&r);
 
-        v.setViewport(0, 0, 640, 480);
-        v.setCullMode(CullMode::CW);
-        v.setVertexShader<VertexShader>();
+    r.setRasterMode(RasterMode::Span);
+    r.setScissorRect(0, 0, WIDTH, HEIGHT);
+    r.setPixelShader<PixelShader>();
+    PixelShader::surface = screen;
+    PixelShader::texture = texture;
 
-        mat4f lookAtMatrix = vmath::lookat_matrix(vec3f(3.0f, 2.0f, 5.0f), vec3f(0.0f), vec3f(0.0f, 1.0f, 0.0f));
-        mat4f perspectiveMatrix = vmath::perspective_matrix(60.0f, 4.0f / 3.0f, 0.1f, 10.0f);
-        VertexShader::modelViewProjectionMatrix = perspectiveMatrix * lookAtMatrix;
+    v.setViewport(0, 0, WIDTH, HEIGHT);
+    v.setCullMode(CullMode::CW);
+    v.setVertexShader<VertexShader>();
 
-        v.setVertexAttribPointer(0, sizeof(ObjData::VertexArrayData), &vdata[0]);
+//        mat4f lookAtMatrix = vmath::lookat_matrix(vec3f(3.0f, 2.0f, 5.0f), vec3f(0.0f), vec3f(0.0f, 1.0f, 0.0f));
+//        mat4f perspectiveMatrix = vmath::perspective_matrix(60.0f, 4.0f / 3.0f, 0.1f, 10.0f);
+//        VertexShader::modelViewProjectionMatrix = perspectiveMatrix * lookAtMatrix;
+//
+//        v.setVertexAttribPointer(0, sizeof(ObjData::VertexArrayData), &vdata[0]);
+//        v.drawElements(DrawMode::Triangle, idata.size(), &idata[0]);
+
+    SDL_UpdateWindowSurface(window);
+
+    mat4f lookAtMatrix = vmath::lookat_matrix(vec3f(3.0f, 2.0f, 5.0f), vec3f(0.0f), vec3f(0.0f, 1.0f, 0.0f));
+    mat4f perspectiveMatrix = vmath::perspective_matrix(60.0f, (float)WIDTH / (float)HEIGHT, 0.1f, 10.0f);
+    //mat4f perspectiveMatrix = vmath::perspective_matrix(60.0f, 4.0f / 3.0f, 0.1f, 10.0f);
+    v.setVertexAttribPointer(0, sizeof(ObjData::VertexArrayData), &vdata[0]);
+
+    SDL_Event e;
+    float angle = 0;
+    bool close = false;
+    while (!close) {
+        SDL_Event event;
+
+        // Events management
+        while (SDL_PollEvent(&event)) {
+            switch (event.type) {
+                case SDL_QUIT:
+                    // handling of close button
+                    close = 1;
+                    break;
+            }
+
+
+        }
+
+        SDL_FillRect(screen, NULL, 0x000000);
+        uint32_t startTime = SDL_GetTicks();
+        mat4f modelMatrix = vmath::rotation_matrix(angle,0.0f,1.0f,0.0f) * vmath::rotation_matrix(angle,1.0f,0.0f,0.0f) * vmath::rotation_matrix(angle,0.0f,0.0f,1.0f);
+        VertexShader::modelViewProjectionMatrix = perspectiveMatrix * lookAtMatrix * modelMatrix;
         v.drawElements(DrawMode::Triangle, idata.size(), &idata[0]);
 
-         //SDL_BlitSurface(texture,NULL,screen,NULL);
-
+        //SDL_Delay(1000);
+        double elpasedTime = (SDL_GetTicks() - startTime)*1.0;
         SDL_UpdateWindowSurface(window);
+        //printf("Frame Time:%f\n",elpasedTime);
+        angle +=0.5;
+    }
 
-	SDL_Event e;
-        while (SDL_WaitEvent(&e) && e.type != SDL_QUIT){
-        }
+
+//
+//    while (SDL_WaitEvent(&e) && e.type != SDL_QUIT){
+//            SDL_FillRect(screen, NULL, 0x000000);
+//            mat4f modelMatrix = vmath::rotation_matrix(angle,0.0f,1.0f,0.0f);
+//            VertexShader::modelViewProjectionMatrix = perspectiveMatrix * lookAtMatrix * modelMatrix;
+//            v.drawElements(DrawMode::Triangle, idata.size(), &idata[0]);
+//
+//            SDL_UpdateWindowSurface(window);
+//
+//            angle +=0.1;
+//        }
 
 	SDL_FreeSurface(texture);
 	SDL_DestroyWindow(window);
