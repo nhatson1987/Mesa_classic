@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<!-- saved from url=(0096)https://www.mathematik.uni-marburg.de/~thormae/lectures/graphics1/code_v2/RasterPoly/index.html# -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <title>Polygon Rasterization</title>
+    <meta name="Autor" content="Bellafkir Hicham">
+    <script src="./Polygon Rasterization_files/jquery-3.1.1.min.js"></script> 
+    <link rel="stylesheet" href="./Polygon Rasterization_files/bootstrap.min.css">
+    <link rel="stylesheet" href="./Polygon Rasterization_files/app_style.css">
+
+    <script src="./Polygon Rasterization_files/geo.js"></script> 
+    <script src="./Polygon Rasterization_files/lib.js"></script> 
+    <script src="./Polygon Rasterization_files/scanline.js"></script> 
+    <script src="./Polygon Rasterization_files/pineda.js"></script> 
+    <script src="./Polygon Rasterization_files/edgeFlag.js"></script>
+    <script src="./Polygon Rasterization_files/canvasImage.js"></script>
+    <script src="./Polygon Rasterization_files/template.js"></script>
+  </head>
+
+  <body>
+    <div class="container">
+      <h1>Polygon Rasterization</h1>
+      <p>
+        This interactive website demonstrates three different approaches for polygon rasterization: Scanline, Pineda, and EdgeFlag.
+        It is part of the lecture <a href="https://www.uni-marburg.de/en/fb12/research-groups/grafikmultimedia/lectures/graphics">Graphics Programming</a> 
+        at the University of Marburg.
+      </p>
+      <div class="row">  
+        <div class="col-sm-12">
+          <select id="approach_select" class="selectpicker" name="rp" data-width="100px">
+            <option selected="selected">Scanline</option>
+            <option>Pineda</option>
+            <option>EdgeFlag</option>
+          </select> 
+          <select id="resolution_select" class="selectpicker" name="rp" data-width="100px">
+            <option id="res_default" selected="selected">25 Pixel</option>
+            <option>50 Pixel</option>
+          </select>
+        </div>
+      </div>
+      <div class="row">  
+        <div class="col-sm-6">
+
+          <div id="canvasContainer">
+            <canvas id="grid" width="500" height="500"></canvas>
+            <canvas id="arrows" width="500" height="500"></canvas>
+            <canvas id="highlight" width="500" height="500"></canvas>
+            <canvas id="main" width="500" height="500"></canvas>
+          </div>
+          <div class="well well-sm" style="margin-top:10px; padding: auto; width:500px">
+            <div class="row">
+              <div class="col-lg-6"><h5 id="mouse_position">Pos: (<strong>X</strong>:0, <strong>Y</strong>:0)</h5></div>
+              <div class="col-lg-6"><h5 id="current_scanline_pixel"></h5></div>
+            </div>
+            <div class="row">
+              <div class="col-md-12"><button id="removePoint" class="btn btn-danger" style="float: left; text-align: center; margin-right:10px;" disabled="">Delete Point</button>
+                <span id="currentP" style=""></span>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6" style="min-width:500px;"> 
+
+          <div class="panel-group" id="accordion" role="tablist" style="width:500px;">
+            <div id="scanline_panel" class="panel panel-default">
+              <div class="panel-heading">
+                <div class="row">
+                  <div class="col-md-4">
+                    <h4 class="panel-title">
+                      <a data-toggle="collapse" data-parent="#accordion" href="https://www.mathematik.uni-marburg.de/~thormae/lectures/graphics1/code_v2/RasterPoly/index.html#collapse1"><strong>Scanline</strong></a>
+                    </h4>
+                  </div> 
+                  <div class="col-md-8">
+                    <!-- <button type="button" id="scanline" class="btn btn-success" data-toggle="collapse" data-target="#collapse1" style="float:right;">step</button>-->
+                    <button id="scanline" class="btn btn-success" style="float:right;">Step</button>
+                    <button id="scanline_back" class="btn btn-success" style="float:right; margin-right: 2px;">Step Back</button>
+                    <button id="scanline_all" class="btn btn-success" style="float:right; margin-right: 2px">Run All</button>
+                  </div>
+                </div>
+              </div>
+              <div id="collapse1" class="panel-collapse collapse in">
+                <div class="panel-body">
+
+                  <div id="et_div">
+                    <h6><strong>Edge Table:</strong></h6>
+                    <table id="edges_table" class="table table-bordered">
+                      <thead>
+                        <tr>
+                          <td>Edge</td>
+                          <td><i>Y</i><sub>min</sub></td>
+                          <td><i>X</i><sub>hit</sub></td>
+                          <td><i>Y</i><sub>max</sub></td>
+                          <td><i>m</i><sup>-1</sup></td>
+                        </tr>
+                      </thead>
+                      <tbody id="et">
+                      </tbody>
+                    </table>
+                  </div>
+                  <div id="aet_div" style="">
+                    <h6><strong>Active Edge Table:</strong></h6>
+                    <table id="edges_activetable" class="table table-bordered">
+                      <thead>
+                        <tr>
+                          <td>Edge</td>
+                          <td><i>Y</i><sub>min</sub></td>
+                          <td><i>X</i><sub>hit</sub></td>
+                          <td><i>Y</i><sub>max</sub></td>
+                          <td><i>m</i><sup>-1</sup></td>
+                        </tr>
+                      </thead>
+                      <tbody id="aet">
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div id="pineda_panel" class="panel panel-default hidden">
+              <div class="panel-heading">
+                <div class="row"> 
+                  <div class="col-md-3">
+                    <h4 class="panel-title">
+                      <a data-toggle="collapse" data-parent="#accordion" href="https://www.mathematik.uni-marburg.de/~thormae/lectures/graphics1/code_v2/RasterPoly/index.html#collapse2"><strong>Pineda</strong></a>
+                    </h4>
+                    <select id="pinedaMode" class="selectpicker" data-width="90px" style="margin-right: 20px;">
+                      <option>simple</option>
+                      <option>smart</option>
+                    </select>
+
+                  </div>
+                  <div class="col-md-9">
+                    <button id="pineda" class="btn btn-success" style="float:right; width:">Step</button>
+                    <button id="pineda_back" class="btn btn-success" style="float:right; margin-right: 2px; width:">Step Back</button>
+                    <button id="pineda_all" class="btn btn-success" style="float:right; margin-right: 2px; width:">Run All</button>
+
+                  </div>
+
+                </div>
+              </div>    
+              <div id="collapse2" class="panel-collapse">
+                <div class="panel-body">
+                  <div id="isConvex" style="padding:0;">  
+                    <div id="convex_class" class="alert alert-success alert-dismissable hidden">
+                      <a href="https://www.mathematik.uni-marburg.de/~thormae/lectures/graphics1/code_v2/RasterPoly/index.html#" class="close" data-dismiss="alert" aria-label="close">×</a>
+                      Only convex polygons are supported
+                    </div>
+                  </div>   
+                  <div id="pineda_table_div">
+                    <table id="pineda_table" class="table table-bordered">
+                      <thead>
+                        <tr>
+                          <td><span title="Distance to current pixel">Edge</span></td>
+                          <td><span title="Direction vector">Direction</span></td>
+                          <td><span title="Normal vector">Normal</span></td>
+                          <td><span title="Distance to current pixel">Distance</span></td>
+                        </tr>
+                      </thead>
+                      <tbody id="pt">
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div id="edgeflag_panel" class="panel panel-default hidden">
+              <div class="panel-heading">
+                <div class="row"> 
+                  <div class="col-md-3">
+                    <h4 class="panel-title">
+                      <a data-toggle="collapse" data-parent="#accordion" href="https://www.mathematik.uni-marburg.de/~thormae/lectures/graphics1/code_v2/RasterPoly/index.html#collapse3"><strong>EdgeFlag</strong></a>
+                    </h4>
+                  </div>
+                  <div class="col-md-9">
+                    <button id="edgeflag_step" class="btn btn-success" style="float:right; width:">Step</button>
+                    <button id="edgeflag_back" class="btn btn-success" style="float:right; margin-right: 2px; width:">Step Back</button>
+                    <button id="edgeflag_all" class="btn btn-success" style="float:right; margin-right: 2px; width:">Run All</button>
+                  </div>
+                </div>
+              </div>    
+              <div id="collapse3" class="panel-collapse">
+                <div class="panel-body">
+                  <table class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <td>Flag:</td>
+                        <td id="flag_value" style="text-align:center;"></td>
+                      </tr>
+                    </thead>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+      <hr style="margin: 2px;">
+      <div class="row">  
+        <div class="col-sm-12 small" style="text-align:center; margin-bottom: 20px;">
+          Created by Bellafkir Hicham, <a href="http://creativecommons.org/licenses/by/4.0/">CC-BY</a>, August 2017, (Supervisior: Thorsten Thormählen)
+        </div>
+      </div>    
+    </div>
+    <script src="./Polygon Rasterization_files/main.js"></script>
+  
+</body></html>

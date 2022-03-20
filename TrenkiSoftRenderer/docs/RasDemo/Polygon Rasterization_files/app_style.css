@@ -1,0 +1,40 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 30.07.2017, 12:43:08
+    Author     : Hicham Bellafkir 
+*/
+
+  body {
+        font-size: 14px; 
+       }
+        canvas {
+            position:absolute;
+            padding:0;
+            border:  1px solid;
+            
+            
+        }
+        #canvasContainer {
+            padding:0;
+            width: 800px;
+            height:500px;
+        }
+        
+        table {
+             margin: 0 auto; /* or margin: 0 auto 0 auto */
+        }
+        
+        #resolution_slider .slider-selection {
+            background: #428041;
+        }
+        #resolution_slider .slider-handle {
+            background: green;
+        }
+        
+        .textcenter {
+            text-align: center;
+        }
